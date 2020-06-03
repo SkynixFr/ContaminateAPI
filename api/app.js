@@ -1,14 +1,13 @@
 const http = require('http');
-
-const hostname = '0.0.0.0';
+const express = require('express');
+const app = express();
+const hostname = 'localhost';
 const port = 3000;
+const connexionController = require('./controllers/connexionController');
 
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/json');
-    res.end('Hello World');
-});
+app.get('/helloworld', (req, res) => res.json({msg:"hello world"}));
 
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-});
+app.post('/signin', connexionController.signin);
+app.post('/login', connexionController.login);
+
+app.listen(port);
