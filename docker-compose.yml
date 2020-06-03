@@ -1,0 +1,41 @@
+version: "3"
+
+networks:
+  contaminate.app:
+    driver: bridge
+
+services:
+  api.contaminate:
+    container_name: api.contaminate
+    image: node
+    ports:
+      - "4000:3000"
+    volumes:
+      - ./api:/app/api
+      - /app/api/node_modules
+    working_dir: /app/api
+    command: npm run dev
+    networks:
+      - contaminate.app
+    links:
+      - mongo.contaminate:mongo
+
+  mongo.contaminate:
+    container_name: mongo.contaminate
+    image: mongo:latest
+    volumes:
+      - ./api/data:/var/data
+    working_dir: /var/data
+    networks:
+      - contaminate.app
+    ports:
+      - 27018:27017
+  mongo-express:
+    container_name: mongoexpress.contaminate
+    image: mongo-express:latest
+    networks:
+      - contaminate.app
+    ports:
+      - "8081:8081"
+    links:
+      - mongo.contaminate:mongo
