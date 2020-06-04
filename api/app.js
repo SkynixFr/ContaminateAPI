@@ -1,13 +1,18 @@
-const http = require('http');
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
-const hostname = 'localhost';
-const port = 3000;
-const connexionController = require('./controllers/connexionController');
 
-app.get('/helloworld', (req, res) => res.json({msg:"hello world"}));
+//Import Routes
+const userRoute = require('./routes/user');
 
-app.post('/signin', connexionController.signin);
-app.post('/login', connexionController.login);
+//Middleware 
+app.use('/users', userRoute);
 
-app.listen(port);
+//Connect to DB
+mongoose.connect('mongodb://localhost:27018/contaminate', {useNewUrlParser: true, useUnifiedTopology: true}, () => {
+    console.log("Connected to DB !");
+});
+
+
+
+app.listen(3000);
