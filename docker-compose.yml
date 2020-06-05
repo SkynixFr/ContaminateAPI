@@ -11,7 +11,7 @@ services:
     ports:
       - "4000:3000"
     environment:
-      - ENV= dev npm run dev 
+      - ENV=dev 
     volumes:
       - ./api:/app/api
       - /app/api/node_modules
