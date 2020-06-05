@@ -4,13 +4,14 @@ const app = express();
 const bodyParser = require("body-parser");
 const {dbhost, dbname} = require("./config/settings");
 
-app.use(bodyParser.json());
-
 //Import Routes
 const userRoute = require('./routes/user');
+const authRoute = require('./routes/auth');
 
 //Middleware 
+app.use(bodyParser.json());
 app.use('/users', userRoute);
+app.use('/auth', authRoute);
 
 //Connect to DB
 try{
