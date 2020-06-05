@@ -43,7 +43,7 @@ router.post("/signin", async (req, res) => {
 
 router.delete("/:userId", async (req, res) => {
     try {
-        const removedUser = User.remove({_id: req.params.userId});
+        const removedUser = await User.remove({_id: req.params.userId});
     } catch (error) {
         res.status(404).json({
             message: error

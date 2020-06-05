@@ -10,6 +10,8 @@ services:
     image: node
     ports:
       - "4000:3000"
+    environment:
+      - ENV= dev npm run dev 
     volumes:
       - ./api:/app/api
       - /app/api/node_modules
