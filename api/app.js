@@ -6,8 +6,6 @@ const {dbhost, dbname} = require("./config/settings");
 
 app.use(bodyParser.json());
 
-console.log(process.env.ENV);
-
 //Import Routes
 const userRoute = require('./routes/user');
 

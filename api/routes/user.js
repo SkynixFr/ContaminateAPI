@@ -5,24 +5,35 @@ const User = require("../model/User");
 router.get("/", async (req, res) => {
     try {
         const users = await User.find();
-        res.status(200).json(users);
+        res.json(users);
     } catch (error) {
-        res.status(404).json({
-            message: error
+        res.status(500).json({
+            status: "error",
+            message: "Internal Server Error"
         })
     }
 });
 
 router.get("/:userId", async (req, res) => {
-    try{
-        const user = await User.findById(req.params.userId);
-        res.status(200).json(user);
-    }catch(error){
-        res.status(404).json({
-            message: error
+    if(!req.params.userId){
+        try{
+            const user = await User.findById(req.params.userId);
+            res.json(user);
+        }catch(error){
+            res.status(500).json({
+                status: "error",
+                message: "Internal Server Error"
+            })
+        }
+        res.send(req.params.userId);
+    }else{
+        res.status(400).json({
+            status: "error",
+            message: "Mising data."
         })
     }
-    res.send(req.params.userId);
+    
+    
 });
 
 router.post("/signin", async (req, res) => {
@@ -31,22 +42,44 @@ router.post("/signin", async (req, res) => {
         username: req.body.username,
         mdp: req.body.mdp
     });
-    try {
-        const savedUser = await user.save();
-        res.status(201).json(savedUser);
-    } catch (error) {
+    if(user.username != null && user.email != null && user.mdp != null){
+        try {
+            const savedUser = await user.save();
+            res.json(savedUser);
+        } catch (error) {
+            res.status(500).json({
+                status: "error",
+                message: "Internal Server Error"
+            })
+        }
+    }else{
         res.status(400).json({
-            message: error
+            status: "error",
+            message: "Mising data."
         })
     }
+    
 });
 
-router.delete("/:userId", async (req, res) => {
-    try {
-        const removedUser = await User.remove({_id: req.params.userId});
-    } catch (error) {
-        res.status(404).json({
-            message: error
+router.patch('/:userId', async (req, res) => {
+    if(!req.params.userId && req.body){
+        try {
+            const updateUser = await User.updateOne({
+                _id: req.params.userId
+            },{
+                $set : req.body
+            });
+            res.json(updateUser);
+        } catch (error) {
+            res.status(500).json({
+                status: "error",
+                message: "Internal Server Error"
+            })
+        }
+    }else{
+        res.status(400).json({
+            status: "error",
+            message: "Mising data"
         })
     }
     
