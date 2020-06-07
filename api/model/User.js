@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const UserSchema = mongoose.Schema({
     email: String,
     username: String,
-    mdp: String,
+    password: String,
     date: {
         type: Date,
         default: Date.now

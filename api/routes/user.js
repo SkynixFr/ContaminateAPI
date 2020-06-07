@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../model/User");
 
+//GET all users
 router.get("/", async (req, res) => {
     try {
         const users = await User.find();
@@ -14,6 +15,7 @@ router.get("/", async (req, res) => {
     }
 });
 
+//GET one user
 router.get("/:userId", async (req, res) => {
     if(req.params.userId == null) return res.status(400).json({
         status: "error",
@@ -30,6 +32,7 @@ router.get("/:userId", async (req, res) => {
     }
 });
 
+//Update on user
 router.patch('/:userId', async (req, res) => {
     if(req.params.userId == null || req.body == null) return res.status(400).json({
         status: "error",
