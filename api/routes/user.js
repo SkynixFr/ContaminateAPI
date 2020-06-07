@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../model/User");
+const verify = require("./verifyToken");
 
 //GET all users
-router.get("/", async (req, res) => {
+router.get("/", verify, async (req, res) => {
     try {
         const users = await User.find();
         res.status(200).json(users);
@@ -19,7 +20,7 @@ router.get("/", async (req, res) => {
 router.get("/:userId", async (req, res) => {
     if(req.params.userId == null) return res.status(400).json({
         status: "error",
-        message: "Missing data"
+        message: "Données manquantes"
     });
     try{
         const user = await User.findById(req.params.userId);
@@ -32,11 +33,11 @@ router.get("/:userId", async (req, res) => {
     }
 });
 
-//Update on user
+//Update one user
 router.patch('/:userId', async (req, res) => {
     if(req.params.userId == null || req.body == null) return res.status(400).json({
         status: "error",
-        message: "Missing data"
+        message: "Données manquantes"
     });
     try {
         const updateUser = await User.updateOne({

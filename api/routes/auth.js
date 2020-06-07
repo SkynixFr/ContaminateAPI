@@ -3,9 +3,10 @@ const router = express.Router();
 const User = require("../model/User");
 const {registerValidation, loginValidation} = require("../utils/validation");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-//CREATE on user
-router.post("/signin", async (req, res) => {
+//CREATE one user
+router.post("/register", async (req, res) => {
 
     //Checking in data isn't empty
     if(req.body.email == null || req.body.username == null || req.body.password == null) return res.status(400).json({
@@ -23,11 +24,11 @@ router.post("/signin", async (req, res) => {
         email: req.body.email
     })
     const usernameExist = await User.findOne({
-        email: req.body.username
+        username: req.body.username
     })
     if(emailExist || usernameExist) return res.status(400).json({
         status: "error",
-        message: "Email already exist"
+        message: "Account already exist"
     })
 
     //Hashing the password
@@ -50,4 +51,40 @@ router.post("/signin", async (req, res) => {
     }   
 });
 
+//LOGIN one user
+router.post("/login", async (req, res) => {
+    //Checking in data isn't empty
+    if(req.body.username == null || req.body.password == null) return res.status(400).json({
+        status: "error",
+        message: "Données manquantes"
+    });
+
+    //Checking if data is good
+    const {error} = loginValidation(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
+    //Checking if the username exist
+    const user = await User.findOne({
+        username: req.body.username
+    })
+    if(!user) return res.status(400).json({
+        status: "error",
+        message: "Mauvais pseudo ou mot de passe."
+    })
+
+    //Checking if the password is correct
+    const validePassword = await bcrypt.compare(req.body.password, user.password);
+    if(!validePassword) return res.status(400).json({
+        status: "error",
+        message: "Mauvais pseudo ou mot de passe."
+    })
+
+    //Create and assing a token
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
+    res.header("auth-token", token).json({
+        message: "Success !"
+    });
+   
+    
+})
 module.exports = router; 

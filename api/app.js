@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const {dbhost, dbname} = require("./config/settings");
+
+dotenv.config();
 
 //Import Routes
 const userRoute = require('./routes/user');
