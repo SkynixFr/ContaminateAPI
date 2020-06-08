@@ -1,6 +1,6 @@
 # Initialisation
 
-L'API fonctionne exclusivement sous *Docker*. Il faut donc avoir *Docker* installé sur votre machine. Il y a un *docker-compose.yml* qui contient tous les services utiliser par l'api. 
+L'API fonctionne exclusivement sous *Docker*. Il faut donc avoir *Docker* installé sur votre machine. Il y a un *docker-compose.yml* qui contient tous les services utilisés par l'api. 
 
 Effectuez un **docker-compose up** pour lancer les services et faites un **docker-compose ps** afin de visualiser s'ils sont bien présent.
 
@@ -24,13 +24,13 @@ Pour vous connecter à la base de données, vous devez créer un dossier *config
 
 # Déploiement sur Heroku
 
-Dans un premier temps installez [Heroku CLI](https://dashboard.heroku.com/apps/contaminateapi/deploy/heroku-git). A la suite de cela, vous pouvez suivre ce qui est marqué en dessous de l'installation : 
+Dans un premier temps, installez [Heroku CLI](https://dashboard.heroku.com/apps/contaminateapi/deploy/heroku-git). A la suite de cela, vous pouvez suivre ce qui est marqué en dessous de l'installation : 
   - Se connecter sur Heroku **heroku login**
   - Initialiser un repository git **git init** ( ATTENTION : Il faut que le fichier *package.json* soit à la racine du projet sinon au déploiement de l'application, cela ne va pas fonctionner.)
   - Lier le git à l'application Heroku : **heroku git:remote -a contaminateapi**
-  - Avant de push, il faut modifier quelques valeurs dans le code afin qu'il fonctionne sur le serveur d'héroku. Il faut modifier le port et le lien de connexion de la bdd. Pour cela, créer un constante port et ajouter process.env.PORT || votreportenlocal. Concernant la bdd ce sera la même chose process.env.MONGODB_URI || votreurienlocal. Pour avoir une bdd liée au projet il faut ajouter mlab en add-ons sur Heroku.
+  - Avant de push, il faut modifier quelques valeurs dans le code afin qu'il fonctionne sur le serveur d'héroku. Il faut modifier le port et le lien de connexion de la bdd. Pour cela, créez un constante port et ajoutez process.env.PORT || votreportenlocal. Concernant la bdd ce sera la même chose process.env.MONGODB_URI || votreurienlocal. Pour avoir une bdd liée au projet, il faut ajouter mlab en add-ons sur Heroku.
   - Faire les commandes basiques de git afin de push votre api sur le repository d'Heroku. **git add .** **git commit -m "init"** **git push heroku master**
-  - Lorsque ces étapes ce sont déroulée sans problème, votre application fonctionne et vous pouvez la lancer soit sur le site d'Héroku dans vos applications soit par commande **heroku open**
+  - Lorsque ces étapes ce sont déroulées sans problème, votre application fonctionne et vous pouvez la lancer soit sur le site d'Héroku dans vos applications soit par commande **heroku open**
 
 ## Liens utiles
 
