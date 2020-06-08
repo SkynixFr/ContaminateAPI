@@ -24,7 +24,7 @@ Pour vous connecter à la base de données, vous devez créer un dossier *config
 
 # Déploiement sur Heroku
 
-Dans un premier temsp installez [Heroku CLI](https://dashboard.heroku.com/apps/contaminateapi/deploy/heroku-git). A la suite de cela, vous pouvez suivre ce qui est marqué en dessous de l'installation : 
+Dans un premier temps installez [Heroku CLI](https://dashboard.heroku.com/apps/contaminateapi/deploy/heroku-git). A la suite de cela, vous pouvez suivre ce qui est marqué en dessous de l'installation : 
   - Se connecter sur Heroku **heroku login**
   - Initialiser un repository git **git init** ( ATTENTION : Il faut que le fichier *package.json* soit à la racine du projet sinon au déploiement de l'application, cela ne va pas fonctionner.)
   - Lier le git à l'application Heroku : **heroku git:remote -a contaminateapi**
