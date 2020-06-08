@@ -17,7 +17,7 @@ router.get("/", verify, async (req, res) => {
 });
 
 //GET one user
-router.get("/:userId", async (req, res) => {
+router.get("/:userId", verify, async (req, res) => {
     if(req.params.userId == null) return res.status(400).json({
         status: "error",
         message: "Données manquantes"
@@ -34,7 +34,7 @@ router.get("/:userId", async (req, res) => {
 });
 
 //Update one user
-router.patch('/:userId', async (req, res) => {
+router.patch('/:userId', verify, async (req, res) => {
     if(req.params.userId == null || req.body == null) return res.status(400).json({
         status: "error",
         message: "Données manquantes"
