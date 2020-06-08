@@ -4,6 +4,8 @@ const app = express();
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const {dbhost, dbname} = require("./config/settings");
+const port = process.env.PORT || 3000;
+const mongodb = process.env.MONGODB_URI || "mongodb://" + dbhost.dev + "/" + dbname;
 
 dotenv.config();
 
@@ -18,11 +20,11 @@ app.use('/auth', authRoute);
 
 //Connect to DB
 try{
-    mongoose.connect("mongodb://" + dbhost.dev + "/" + dbname, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
+    mongoose.connect(mongodb, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
         console.log("Connected to DB !");
     });
 }catch(error){
     console.log(error);   
 }
 
-app.listen(3000);
+app.listen(port);
