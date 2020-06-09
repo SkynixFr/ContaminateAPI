@@ -11,12 +11,15 @@ router.post("/register", async (req, res) => {
     //Checking in data isn't empty
     if(req.body.email == null || req.body.username == null || req.body.password == null) return res.status(400).json({
         status: "error",
-        message: "Missing data"
+        message: "Données manquantes"
     });
 
     //Checking if data is good
     const {error} = registerValidation(req.body);
-    if(error) return res.status(400).end(error.details[0].message);
+    if(error) return res.status(400).json({
+        status: "error",
+        message: error.details[0].message
+    });
 
 
     //Checking if the user is already in the database
@@ -28,7 +31,7 @@ router.post("/register", async (req, res) => {
     })
     if(emailExist || usernameExist) return res.status(400).json({
         status: "error",
-        message: "Account already exist"
+        message: "Le compte existe déjà"
     })
 
     //Hashing the password
@@ -82,6 +85,7 @@ router.post("/login", async (req, res) => {
     //Create and assing a token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     res.header("auth-token", token).json({
+        token: token,
         message: "Success !"
     });
    
