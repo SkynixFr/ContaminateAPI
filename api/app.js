@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const {dbhost, dbname} = require("./config/settings");
 const port = process.env.PORT || 3000;
 const mongodb = process.env.MONGODB_URI || "mongodb://" + dbhost.dev + "/" + dbname;
+
 const cors = require("cors");
 
 dotenv.config();
@@ -15,7 +16,7 @@ const userRoute = require('./routes/user');
 const authRoute = require('./routes/auth');
 
 //Middleware 
-app.user(cors());
+app.use(cors());
 app.use(bodyParser.json());
 app.use('/users', userRoute);
 app.use('/auth', authRoute);
