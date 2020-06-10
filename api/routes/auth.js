@@ -61,7 +61,7 @@ router.post("/register", async (req, res, next) => {
 });
 
 //LOGIN one user
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   //Checking in data isn't empty
   if (req.body.username == null || req.body.password == null)
     return next(CustomException("Données manquante", 400, req.url, req.method));
