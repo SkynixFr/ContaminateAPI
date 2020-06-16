@@ -1,0 +1,17 @@
+const mongoose = require("mongoose");
+const GameSchema = mongoose.Schema({
+  gold: {
+    type: Number,
+    require: true,
+  },
+  twitchPts: {
+    type: Number,
+    require: true,
+  },
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
+});
+
+module.exports = mongoose.model("Game", GameSchema);

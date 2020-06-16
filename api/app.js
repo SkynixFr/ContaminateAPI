@@ -15,12 +15,14 @@ dotenv.config();
 //Import Routes
 const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
+const gameRoute = require("./routes/game");
 
 //Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/users", userRoute);
 app.use("/auth", authRoute);
+app.use("/game", gameRoute);
 
 //Connect to DB
 try {
