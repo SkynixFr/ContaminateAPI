@@ -5,7 +5,7 @@ const verify = require("./verifyToken");
 const { CustomException } = require("../utils/errorHandling");
 
 //GET all users
-router.get("/", verify, async (req, res) => {
+router.get("/", verify, async (req, res, next) => {
   try {
     const users = await User.find();
     res.status(200).json({
@@ -21,11 +21,7 @@ router.get("/", verify, async (req, res) => {
 });
 
 //GET one user
-router.get("/:userId", verify, async (req, res) => {
-  if (req.params.userId == null)
-    return next(
-      CustomException("Données manquantes", 400, req.url, req.method)
-    );
+router.get("/:userId", verify, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
     res.status(200).json({
@@ -41,8 +37,8 @@ router.get("/:userId", verify, async (req, res) => {
 });
 
 //Update one user
-router.patch("/:userId", verify, async (req, res) => {
-  if (req.params.userId == null || req.body == null)
+router.patch("/:userId", verify, async (req, res, next) => {
+  if (Object.keys(req.body).length === 0)
     return next(
       CustomException("Données manquantes", 400, req.url, req.method)
     );

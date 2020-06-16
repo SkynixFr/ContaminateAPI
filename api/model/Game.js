@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const GameSchema = mongoose.Schema({
-  gold: {
+  golds: {
     type: Number,
     require: true,
   },

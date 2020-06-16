@@ -22,7 +22,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use("/users", userRoute);
 app.use("/auth", authRoute);
-app.use("/game", gameRoute);
+app.use("/games", gameRoute);
 
 //Connect to DB
 try {

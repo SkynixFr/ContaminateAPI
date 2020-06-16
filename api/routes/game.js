@@ -15,10 +15,17 @@ router.post("/", verify, async (req, res, next) => {
   const idUserExist = await Game.findOne({
     user: payload._id,
   });
-  if (idUserExist)
-    return next(
-      CustomException("La partie existe déjà", 400, req.url, req.method)
-    );
+
+  //Check if the game already exist
+  if (idUserExist) {
+    const gameSave = await Game.findOne(idUserExist);
+    res.status(200).json({
+      message: "Voici la partie",
+      code: 200,
+      game: gameSave,
+    });
+  }
+
   const game = new Game({
     gold: 0,
     twitchPts: 0,
@@ -38,4 +45,30 @@ router.post("/", verify, async (req, res, next) => {
   }
 });
 
+//UPDATE one game
+router.patch("/:gameId", verify, async (req, res, next) => {
+  if (Object.keys(req.body).length === 0)
+    return next(
+      CustomException("Données manquantes", 400, req.url, req.method)
+    );
+  try {
+    const updateGame = await Game.updateOne(
+      {
+        _id: req.params.gameId,
+      },
+      {
+        $set: req.body,
+      }
+    );
+    res.status(201).json({
+      message: "La partie a bien été sauvegardée",
+      code: 201,
+      user: updateGame,
+    });
+  } catch (error) {
+    return next(
+      CustomException("Internal Server Error", 500, req.url, req.method)
+    );
+  }
+});
 module.exports = router;
