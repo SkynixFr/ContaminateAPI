@@ -43,22 +43,26 @@ router.patch("/:userId", verify, async (req, res, next) => {
       CustomException("Données manquantes", 400, req.url, req.method)
     );
   try {
-    const updateUser = await User.updateOne(
-      {
-        _id: req.params.userId,
-      },
-      {
-        $set: req.body,
-      }
-    );
-    res.status(201).json({
-      message: "L'utilisateur a bien été modifié",
-      code: 201,
-      user: updateUser,
+    const user = await User.findOne({
+      _id: req.params.userId,
     });
+    if (req.body.username) user.username = req.body.username;
+    if (req.body.email) user.email = req.body.email;
+    if (req.body.password) user.password = req.body.password;
+    try {
+      user.save();
+      res.status(201).json({
+        message: "L'utilisateur a bien été modifié",
+        code: 201,
+      });
+    } catch (error) {
+      return next(
+        CustomException("Internal Server Error", 500, req.url, req.method)
+      );
+    }
   } catch (error) {
     return next(
-      CustomException("Internal Server Error", 500, req.url, req.method)
+      CustomException("L'utilisateur n'existe pas", 400, req.url, req.method)
     );
   }
 });

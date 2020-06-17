@@ -27,7 +27,7 @@ router.post("/", verify, async (req, res, next) => {
   }
 
   const game = new Game({
-    gold: 0,
+    golds: 0,
     twitchPts: 0,
     user: payload._id,
   });
@@ -52,22 +52,25 @@ router.patch("/:gameId", verify, async (req, res, next) => {
       CustomException("Données manquantes", 400, req.url, req.method)
     );
   try {
-    const updateGame = await Game.updateOne(
-      {
-        _id: req.params.gameId,
-      },
-      {
-        $set: req.body,
-      }
-    );
-    res.status(201).json({
-      message: "La partie a bien été sauvegardée",
-      code: 201,
-      user: updateGame,
+    const game = await Game.findOne({
+      _id: req.params.gameId,
     });
+    if (req.body.golds) game.golds = req.body.golds;
+    if (req.body.twitchPts) game.twitchPts = req.body.twitchPts;
+    try {
+      game.save();
+      res.status(201).json({
+        message: "La partie a bien été sauvegardée",
+        code: 201,
+      });
+    } catch (error) {
+      return next(
+        CustomException("Internal Server Error", 500, req.url, req.method)
+      );
+    }
   } catch (error) {
     return next(
-      CustomException("Internal Server Error", 500, req.url, req.method)
+      CustomException("La partie n'existe pas", 400, req.url, req.method)
     );
   }
 });

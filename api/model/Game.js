@@ -12,6 +12,7 @@ const GameSchema = mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "User",
   },
+  amelioration: [{}],
 });
 
 module.exports = mongoose.model("Game", GameSchema);
