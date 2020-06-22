@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const DefaultUpgrade = mongoose.Schema({
+const DefaultUpgradeSchema = mongoose.Schema({
   name: {
     type: String,
     require: true,
@@ -22,4 +22,4 @@ const DefaultUpgrade = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("DefaultUpgrade", DefaultUpgrade);
+module.exports = mongoose.model("DefaultUpgrade", DefaultUpgradeSchema);

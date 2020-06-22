@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const UpgradeSchema = mongoose.Schema({
+const BonusSchema = mongoose.Schema({
   game: {
     type: mongoose.Types.ObjectId,
     ref: "Game",
@@ -14,4 +14,4 @@ const UpgradeSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Bonus", UpgradeSchema);
+module.exports = mongoose.model("Bonus", BonusSchema);

@@ -17,6 +17,7 @@ const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
 const gameRoute = require("./routes/game");
 const upgradeRoute = require("./routes/upgrade");
+const bonusRoute = require("./routes/bonus");
 
 //Middleware
 app.use(cors());
@@ -25,6 +26,7 @@ app.use("/users", userRoute);
 app.use("/auth", authRoute);
 app.use("/games", gameRoute);
 app.use("/upgrade", upgradeRoute);
+app.use("/bonus", bonusRoute);
 
 //Connect to DB
 try {

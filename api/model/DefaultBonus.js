@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const DefaultBonus = mongoose.Schema({
+const DefaultBonusSchema = mongoose.Schema({
   name: {
     type: String,
     require: true,
@@ -18,4 +18,4 @@ const DefaultBonus = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("DefaultBonus", DefDefaultBonusaultUpgrade);
+module.exports = mongoose.model("DefaultBonus", DefaultBonusSchema);

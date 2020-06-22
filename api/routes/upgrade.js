@@ -14,7 +14,7 @@ router.get("/default", verify, async (req, res, next) => {
     res.status(200).json({
       message: "Liste des améliorations par défaut",
       code: 200,
-      upgrade: defaultUpgrade,
+      upgrades: defaultUpgrade,
     });
   } catch (error) {
     return next(
@@ -106,7 +106,7 @@ router.patch("/:gameId/:upgradeId", verify, async (req, res, next) => {
         if (req.body.price) saveUpgrade.price = req.body.price;
         await saveUpgrade.save();
         res.status(201).json({
-          message: "L'amélioration a bien été modifié",
+          message: "L'amélioration a bien été modifiée",
           code: 201,
           upgrade: saveUpgrade,
         });
