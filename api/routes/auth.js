@@ -37,14 +37,10 @@ router.post("/register", async (req, res, next) => {
       CustomException("Le compte existe déjà", 400, req.url, req.method)
     );
 
-  //Hashing the password
-  const salt = await bcrypt.genSalt(10);
-  const hashPassword = await bcrypt.hash(req.body.password, salt);
-
   const user = new User({
     email: req.body.email,
     username: req.body.username,
-    password: hashPassword,
+    password: req.body.password,
   });
   try {
     const savedUser = await user.save();
@@ -91,6 +87,7 @@ router.post("/login", async (req, res, next) => {
 
   //Checking if the password is correct
   const validePassword = await bcrypt.compare(req.body.password, user.password);
+
   if (!validePassword)
     return next(
       CustomException(

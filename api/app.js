@@ -16,6 +16,7 @@ dotenv.config();
 const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
 const gameRoute = require("./routes/game");
+const upgradeRoute = require("./routes/upgrade");
 
 //Middleware
 app.use(cors());
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use("/users", userRoute);
 app.use("/auth", authRoute);
 app.use("/games", gameRoute);
+app.use("/upgrade", upgradeRoute);
 
 //Connect to DB
 try {

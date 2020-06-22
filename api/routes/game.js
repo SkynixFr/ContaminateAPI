@@ -5,7 +5,7 @@ const { CustomException } = require("../utils/errorHandling");
 const verify = require("./verifyToken");
 const jwt = require("jsonwebtoken");
 
-//CREATE one game
+//CREATE one game and check if the game already exist if yes send it
 router.post("/", verify, async (req, res, next) => {
   const token = req.header("auth-token");
   const payload = jwt.decode(token);
@@ -45,6 +45,28 @@ router.post("/", verify, async (req, res, next) => {
   }
 });
 
+//GET user game
+router.get("/user", verify, async (req, res, next) => {
+  const token = req.header("auth-token");
+  const payload = jwt.decode(token);
+  if (!payload)
+    return next(CustomException("Token invalide", 400, req.url, req.method));
+  try {
+    const game = await Game.findOne({
+      user: payload._id,
+    });
+    res.status(200).json({
+      message: "Voici la partie",
+      code: 200,
+      game: game,
+    });
+  } catch (error) {
+    return next(
+      CustomException("Vous n'avez pas de partie", 400, req.url, req.method)
+    );
+  }
+});
+
 //UPDATE one game
 router.patch("/:gameId", verify, async (req, res, next) => {
   if (Object.keys(req.body).length === 0)
@@ -52,7 +74,7 @@ router.patch("/:gameId", verify, async (req, res, next) => {
       CustomException("Données manquantes", 400, req.url, req.method)
     );
   try {
-    const game = await Game.findOne({
+    const game = await Game.findById({
       _id: req.params.gameId,
     });
     if (req.body.golds) game.golds = req.body.golds;
@@ -74,4 +96,5 @@ router.patch("/:gameId", verify, async (req, res, next) => {
     );
   }
 });
+
 module.exports = router;

@@ -31,7 +31,7 @@ router.get("/:userId", verify, async (req, res, next) => {
     });
   } catch (error) {
     return next(
-      CustomException("Internal Server Error", 500, req.url, req.method)
+      CustomException("L'utilisateur n'existe pas", 400, req.url, req.method)
     );
   }
 });
@@ -50,7 +50,7 @@ router.patch("/:userId", verify, async (req, res, next) => {
     if (req.body.email) user.email = req.body.email;
     if (req.body.password) user.password = req.body.password;
     try {
-      user.save();
+      await user.save();
       res.status(201).json({
         message: "L'utilisateur a bien été modifié",
         code: 201,
