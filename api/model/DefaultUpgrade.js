@@ -19,6 +19,7 @@ const DefaultUpgradeSchema = mongoose.Schema({
   level: {
     type: Number,
     require: true,
+    default: 0,
   },
 });
 

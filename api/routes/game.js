@@ -5,58 +5,58 @@ const { CustomException } = require("../utils/errorHandling");
 const verify = require("./verifyToken");
 const jwt = require("jsonwebtoken");
 
-//CREATE one game and check if the game already exist if yes send it
+//Create a game and check if the game exists, if yes returns it
 router.post("/", verify, async (req, res, next) => {
+  //Check if the token exists
   const token = req.header("auth-token");
   const payload = jwt.decode(token);
   if (!payload)
     return next(CustomException("Token invalide", 400, req.url, req.method));
 
-  const idUserExist = await Game.findOne({
+  //Check if the game exists, if not creates it
+  const UserExist = await Game.findOne({
     user: payload._id,
   });
-
-  //Check if the game already exist
-  if (idUserExist) {
-    const gameSave = await Game.findOne(idUserExist);
+  if (UserExist) {
+    const savedGame = await Game.findOne(UserExist);
     res.status(200).json({
-      message: "Voici la partie",
+      message: "Informations de la partie",
       code: 200,
-      game: gameSave,
-    });
-  }
-
-  const game = new Game({
-    golds: 0,
-    twitchPts: 0,
-    user: payload._id,
-  });
-  try {
-    const savedGame = await game.save();
-    res.status(201).json({
-      message: "La partie a bien été créée",
-      code: 201,
       game: savedGame,
     });
-  } catch (error) {
-    return next(
-      CustomException("Internal Server Error", 500, req.url, req.method)
-    );
+  } else {
+    const game = new Game({
+      user: payload._id,
+    });
+    try {
+      const savedGame = await game.save();
+      res.status(201).json({
+        message: "La partie a bien été créée",
+        code: 201,
+        game: savedGame,
+      });
+    } catch (error) {
+      return next(
+        CustomException("Internal Server Error", 500, req.url, req.method)
+      );
+    }
   }
 });
 
-//GET user game
+//Get the user's game, returns the game
 router.get("/user", verify, async (req, res, next) => {
+  //Check if the token exists
   const token = req.header("auth-token");
   const payload = jwt.decode(token);
   if (!payload)
     return next(CustomException("Token invalide", 400, req.url, req.method));
+
   try {
     const game = await Game.findOne({
       user: payload._id,
     });
     res.status(200).json({
-      message: "Voici la partie",
+      message: "Informations de la partie",
       code: 200,
       game: game,
     });
@@ -67,12 +67,14 @@ router.get("/user", verify, async (req, res, next) => {
   }
 });
 
-//UPDATE one game
+//Update a game, returns the game
 router.patch("/:gameId", verify, async (req, res, next) => {
+  //Check if the data isn't empty
   if (Object.keys(req.body).length === 0)
     return next(
       CustomException("Données manquantes", 400, req.url, req.method)
     );
+
   try {
     const game = await Game.findById({
       _id: req.params.gameId,
@@ -84,6 +86,7 @@ router.patch("/:gameId", verify, async (req, res, next) => {
       res.status(201).json({
         message: "La partie a bien été sauvegardée",
         code: 201,
+        game: game,
       });
     } catch (error) {
       return next(

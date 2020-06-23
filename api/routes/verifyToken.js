@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { CustomException } = require("../utils/errorHandling");
 
+//Check if the token exists
 module.exports = function (req, res, next) {
   const token = req.header("auth-token");
   if (!token)
