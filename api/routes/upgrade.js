@@ -11,10 +11,9 @@ router.get("/default", verify, async (req, res, next) => {
   try {
     const defaultUpgrade = await DefaultUpgrade.find();
     res.status(200).json({
-      defaultUpgrade,
-      // message: "Liste des améliorations par défaut",
-      // code: 200,
-      // upgrades: defaultUpgrade,
+      message: "Liste des améliorations par défaut",
+      code: 200,
+      upgrades: defaultUpgrade,
     });
   } catch (error) {
     return next(
@@ -99,10 +98,9 @@ router.get("/:gameId", verify, async (req, res, next) => {
       game: req.params.gameId,
     });
     res.status(200).json({
-      modifiedUpgrade,
-      // message: "Liste des améliorations modifiées de la partie",
-      // code: 200,
-      // upgrades: modifiedUpgrade,
+      message: "Liste des améliorations modifiées de la partie",
+      code: 200,
+      upgrades: modifiedUpgrade,
     });
   } catch (error) {
     return next(

@@ -15,6 +15,11 @@ const UserSchema = mongoose.Schema(
       type: String,
       require: true,
     },
+    img: {
+      type: String,
+      require: true,
+      default: "../../public/default.png",
+    },
   },
   {
     timestamps: true,
