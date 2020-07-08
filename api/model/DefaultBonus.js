@@ -16,6 +16,10 @@ const DefaultBonusSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  img: {
+    type: String,
+    require: true,
+  },
 });
 
 module.exports = mongoose.model("DefaultBonus", DefaultBonusSchema);

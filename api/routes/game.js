@@ -81,6 +81,7 @@ router.patch("/:gameId", verify, async (req, res, next) => {
     });
     if (req.body.golds) game.golds = req.body.golds;
     if (req.body.twitchPts) game.twitchPts = req.body.twitchPts;
+    if (req.body.production) game.production = req.body.production;
     try {
       game.save();
       res.status(201).json({
