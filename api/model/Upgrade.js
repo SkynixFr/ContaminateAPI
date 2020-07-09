@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Float = require("mongoose-float").loadType(mongoose, 3);
 const UpgradeSchema = mongoose.Schema(
   {
     game: {
@@ -14,7 +15,7 @@ const UpgradeSchema = mongoose.Schema(
       require: true,
     },
     production: {
-      type: Number,
+      type: Float,
       require: true,
     },
     level: {

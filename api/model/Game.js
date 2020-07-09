@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const Float = require("mongoose-float").loadType(mongoose, 3);
 const GameSchema = mongoose.Schema(
   {
     golds: {
-      type: Number,
+      type: Float,
       default: 0,
       require: true,
     },
@@ -12,7 +13,7 @@ const GameSchema = mongoose.Schema(
       require: true,
     },
     production: {
-      type: Number,
+      type: Float,
       default: 0,
       require: true,
     },

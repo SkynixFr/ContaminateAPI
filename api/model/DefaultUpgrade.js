@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Float = require("mongoose-float").loadType(mongoose, 3);
 const DefaultUpgradeSchema = mongoose.Schema({
   name: {
     type: String,
@@ -9,7 +10,7 @@ const DefaultUpgradeSchema = mongoose.Schema({
     require: true,
   },
   production: {
-    type: Number,
+    type: Float,
     require: true,
   },
   scaling: {
